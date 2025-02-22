@@ -1,0 +1,77 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/* Fix header spacing and positioning */
+.header-custom {
+    background-color: #222;
+    color: #FFD700;
+    padding: 10px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    margin: 0 !important; /* Ensures no unwanted margins */
+}
+
+/* Ensure navbar does not push down */
+.navbar-custom {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Fix body padding to accommodate fixed header and footer */
+body {
+    padding-top: 70px !important; /* Adjust for header */
+    padding-bottom: 60px !important; /* Adjust for footer */
+}
+
+
+.footer-custom {
+    background-color: #222; /* Dark background */
+    color: #FFD700; /* Gold text */
+    padding: 15px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.footer-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+    .footer-link:hover {
+        text-decoration: underline;
+        color: white;
+    }

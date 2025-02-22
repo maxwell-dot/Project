@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .full-page-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: url('/images/background.jpg') no-repeat center center;
+        background-size: cover;
+        z-index: -1;
+    }
+
+    .content-overlay {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+    /* Define animation */
+    @@keyframes slideUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .content-overlay h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #FFD700;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px;
+
+        /* Apply animation */
+        animation: slideUp 1.5s ease-out;
+    }
+</style>
+
+<div class="full-page-background"></div>
+
+<div class="content-overlay">
+    <h1 class="display-4">Welcome to our Dealership</h1>
+</div>

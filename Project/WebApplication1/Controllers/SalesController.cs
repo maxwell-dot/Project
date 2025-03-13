@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
 using WebApplication1.Models.DBs;
+using WebApplication1.Repositories;
 
 namespace WebApplication1.Controllers
 {
     public class SalesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
 
-        public SalesController(ApplicationDbContext context)
+        private readonly DealerShipRepository _repository;
+
+
+        public SalesController(DealerShipRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
         public async Task<IActionResult> Index(Car car)
         {
             ViewBag.SelectedCar = car;
-            var clients = await _context.Clients.Where( c => c.IsActive).ToListAsync();
+            var clients = await _repository.GetClients();
             return View(clients);
         }
-        public IActionResult EditClient(Clients client)
+        public async Task<IActionResult> EditClient(Clients client)
         {
-            _context.Clients.Update(client);
-            _context.SaveChanges();
+            await _repository.UpdateClient(client);
             return View();
         }
 
@@ -38,15 +39,17 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> DeleteClient(Guid id)
         {
 
-            var client = await _context.Clients.FindAsync(id);
-            client.IsActive = false;
+            var client = await _repository.GetClientById(id);
+
             if (client == null)
             {
                 return NotFound(); // Return 404 if client doesn't exist
             }
 
-            _context.Clients.Update(client);
-            await _context.SaveChangesAsync();
+            client.IsActive = false;
+
+            await _repository.UpdateClient(client);
+
 
             // Redirect instead of returning a view
             return RedirectToAction("Index");
@@ -78,7 +81,7 @@ namespace WebApplication1.Controllers
             //}
             Console.WriteLine($"Received carId: {carId}");
 
-            var car = await _context.Cars.AsNoTracking().FirstOrDefaultAsync(c => c.Id == carId);
+            var car = await _repository.GetCarById(carId);
             if (car == null)
             {
                 Console.WriteLine($"Car with Id {carId} NOT FOUND in the database!");
@@ -89,12 +92,11 @@ namespace WebApplication1.Controllers
 
 
             var sale = new Sales { IdCar = car.Id, IdClient = clientId, TotalPayment = 60000 };
-            await _context.Sales.AddAsync(sale);
-            await _context.SaveChangesAsync();
+            await _repository.AddSale(sale);
 
             ViewBag.CarSold = true;
             ViewBag.SelectedCar = car;
-            var clients = await _context.Clients.ToListAsync();
+            var clients = await _repository.GetClients();
             return View("Index", clients);
         }
 

@@ -9,6 +9,7 @@ namespace WebApplication1.Models.DBs
         public string Name { get; set; }
         public string Model { get; set; }
         public string Color { get; set; }
+        public string FullName => Name + " " + Model;
 
     }
 }

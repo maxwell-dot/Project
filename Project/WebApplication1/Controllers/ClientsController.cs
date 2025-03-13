@@ -16,12 +16,14 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult AddClient(Clients client)
         {
+            client.IsActive = true;
             _context.Clients.Add(client);
             _context.SaveChanges();
             return View();
         }
         public IActionResult EditClient(Clients client)
         {
+            
             _context.Clients.Update(client);
             _context.SaveChanges();
             return View();

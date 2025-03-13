@@ -75,3 +75,31 @@ body {
         text-decoration: underline;
         color: white;
     }
+
+.car-sold-banner {
+    position: fixed; /* Keeps it in the center of the screen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Perfect centering */
+    background-color: #28a745; /* Green success color */
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensures it appears above other elements */
+    width: fit-content; /* Makes the width adjust to content */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+    .car-sold-banner {
+        width: 90%;
+        font-size: 20px;
+        padding: 15px;
+        white-space: normal; /* Allows wrapping on smaller screens */
+    }
+}

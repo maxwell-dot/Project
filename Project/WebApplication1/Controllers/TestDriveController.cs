@@ -1,44 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Models;
 using WebApplication1.Models.DBs;
+using WebApplication1.Repositories;
 
 namespace WebApplication1.Controllers
 {
     public class TestDriveController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DealerShipRepository _repository;
 
-        public TestDriveController(ApplicationDbContext context)
+        public TestDriveController(DealerShipRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var viewModel = await _repository.GetDataForTestDrive();
+            return View(viewModel);
+        }
+
+
 
         [HttpPost]
         public IActionResult AddClient(Clients client)
         {
-            _context.Clients.Add(client);
-            _context.SaveChanges();
+            _repository.AddClient(client);
             return View();
         }
         public IActionResult EditClient(Clients client)
         {
-            _context.Clients.Update(client);
-            _context.SaveChanges();
+            _repository.UpdateClient(client);
             return View();
-        }
-        public async Task<IActionResult> Index()
-        {
-            var clients = await _context.Clients.ToListAsync();
-            return View(clients);
         }
 
         public async Task<IActionResult> DeleteClient(Clients client)
         {
-            _context.Clients.Remove(client);
-            _context.SaveChanges();
-            var clients = await _context.Clients.ToListAsync();
-            return View("Index", clients);
+            _repository.UpdateClient(client);
+            //var clients = await _context.Clients.Where(c => c.IsActive).ToListAsync();
+            return View("Index");
 
         }
     

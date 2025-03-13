@@ -15,8 +15,8 @@ namespace WebApplication1.Data.Migrations
        columns: table => new
        {
            Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NewId()"),
-           IdCar = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NewId()"),
-           IdClient = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NewId()"),
+           IdCar = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+           IdClient = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
            TotalPayment = table.Column<int>(type: "int", nullable: false)
 
        },
@@ -25,7 +25,7 @@ namespace WebApplication1.Data.Migrations
            table.PrimaryKey("PK_Sales", x => x.Id);
            table.ForeignKey(
                      name: "FK_Sales_Cars",
-                     column: x => x.Id,
+                     column: x => x.IdCar,
                      principalTable: "Cars",
                      principalColumn: "Id",
                      onDelete: ReferentialAction.Cascade
@@ -33,11 +33,24 @@ namespace WebApplication1.Data.Migrations
                      );
            table.ForeignKey(
                name: "FK_Sales_Clients",
-               column: x => x.Id,
+               column: x => x.IdClient,
                principalTable: "Clients",
                principalColumn: "Id",
                onDelete: ReferentialAction.Cascade);
        });
+            // add new
+            migrationBuilder.CreateIndex(
+        name: "IX_Sales_IdCar",
+        table: "Sales",
+        column: "IdCar"
+    );
+
+            //        migrationBuilder.CreateIndex(
+            //            name: "IX_Sales_IdClient",
+            //            table: "Sales",
+            //            column: "IdClient"
+            //        );
+            //        // end new
         }
 
         /// <inheritdoc />

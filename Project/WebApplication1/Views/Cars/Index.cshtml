@@ -37,9 +37,10 @@
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
             <td>
-                <a asp-action="Index" asp-controller="Sales" asp-route-id="@item.Id">Cumpara</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Rezerva Test Drive</a> 
-                
+                @* <a asp-action="Index" asp-controller="Sales" asp-route-id="@item.Id">Cumpara</a> | *@
+                    <a asp-action="Index" asp-controller="Sales" asp-route-id="@item.Id" asp-route-name="@item.Name" asp-route-model="@item.Model" asp-route-color="@item.Color">Cumpara</a> |
+                <a asp-action="Index" asp-controller="TestDrive" asp-route-id="@item.Id">Rezerva Test Drive</a>
+
             </td>
         </tr>
 }

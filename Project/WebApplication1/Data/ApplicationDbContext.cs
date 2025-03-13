@@ -7,7 +7,8 @@ namespace WebApplication1.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-     
+        //internal readonly object Sales;
+
         public DbSet<Car> Cars { get; set; }
 
         
@@ -23,6 +24,8 @@ namespace WebApplication1.Data
         {
         }
         public DbSet<WebApplication1.Models.DBs.Clients> Clients { get; set; } = default!;
-        public DbSet<WebApplication1.Models.DBs.Sale> Sale { get; set; } = default!;
+        public DbSet<WebApplication1.Models.DBs.Sales> Sale { get; set; } = default!;
+        public DbSet<Sales> Sales { get; set; }
+
     }
 }

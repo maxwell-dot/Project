@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using WebApplication1.Data;
+using WebApplication1.Models.DBs;
 
 namespace WebApplication1.Controllers
 {

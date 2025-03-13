@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebApplication1.Models.DBs.Clients>
-
+@* 
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+ *@
+<h1>Masina aleasa: @ViewBag.SelectedCar.Name @ViewBag.SelectedCar.Model </h1>
 
 <p>
     <a asp-controller="Clients" asp-action="AddClient">Create New</a>
@@ -43,10 +43,50 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                <a asp-action="Edit" asp-controller="Clients" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="DeleteClient" asp-controller="Sales"  asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="EditClient" asp-controller="Clients" asp-route-id="@item.Id" asp-route-FirstName="@item.FirstName" asp-route-LastName="@item.LastName" asp-route-Email="@item.Email" asp-route-Phone="@item.Phone">Edit</a> |
+                    <a asp-action="DeleteClient" asp-controller="Sales" asp-route-id="@item.Id">Delete</a> |
+              @*      <a asp-action="SellCar" asp-controller="Sales" asp-route-id="@ViewBag.SelectedCar.Id" asp-route-model="@ViewBag.SelectedCar.Model" asp-route-name="@ViewBag.SelectedCar.Name" asp-route-color="@ViewBag.SelectedCar.Color" asp-route-clientid="@item.Id">Vinde</a>*@
+                    <a asp-action="SellCar" asp-controller="Sales" asp-route-carId="@ViewBag.SelectedCar.Id"  asp-route-clientId="@item.Id">Vinde</a> 
+                    @* <a asp-action="SellCar" asp-controller="Sales" asp-route-model="@ViewBag.SelectedCar.Model" asp-route-FirstName="@item.FirstName" asp-route-LastName="@item.LastName">Vinde</a> *@
             </td>
         </tr>
 }
     </tbody>
+   @* <partial name="_SoldCarPartial" /> *@
+
+    @if(ViewBag.CarSold != null && ViewBag.CarSold)
+    {
+        <partial name="_SoldCarPartial" />
+    }
+
 </table>
+
+
+<script>
+    window.onload = function() {
+        // Show the banner
+        var banner = document.getElementById("bannersold-id");
+        banner.style.display = "block";
+
+        // Set a timer to hide the banner after 5 seconds (5000 milliseconds)
+        setTimeout(function() {
+            banner.style.display = "none";
+        }, 5000); // 5000 ms = 5 seconds
+    };
+</script>
+
+<style>
+    /* Styling for the banner */
+    #banner {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 18px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        display: none;  /* Initially hidden */
+    }
+</style>

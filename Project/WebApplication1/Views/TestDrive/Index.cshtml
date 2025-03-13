@@ -1,34 +1,50 @@
-﻿@model IEnumerable<WebApplication1.Models.DBs.Clients>
+﻿ @model WebApplication1.Models.TestDriveViewModel
 
-@{
+@*{
     ViewData["Title"] = "Index";
-}
+}*@
 
-<h1>Index</h1>
+<h1>Adauga client pentru TestDrive </h1>
+   <br />
+
 
 <p>
     <a asp-controller="Clients" asp-action="AddClient">Create New</a>
 </p>
+
+@* @Html.DropDownListFor(model => Model.SelectedCar, new SelectList(Model.Cars, "Id", "FullName")) *@
+
+<div class="mb-3">
+    <label for="carSelect" class="form-label"><strong>Select a Car:</strong></label>
+    @Html.DropDownListFor(
+            model => model.SelectedCar,
+            new SelectList(Model.Cars, "Id", "FullName"),
+            "Select a Car",
+            new { @class = "form-control", id = "carSelect" }
+            )
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Clients.First().FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().Phone)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Clients) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -45,10 +61,43 @@
             <td>
                     <a asp-action="EditClient" asp-controller="Clients" asp-route-id="@item.Id" asp-route-FirstName="@item.FirstName" asp-route-LastName="@item.LastName" asp-route-Email="@item.Email" asp-route-Phone="@item.Phone">Edit</a> |
                     <a asp-action="DeleteClient" asp-controller="Sales" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="SelectClient" asp-controller="TestDrive" asp-route-id="@item.Id">Select</a> 
+                    @* <a asp-action="SelectClient" asp-controller="TestDrive" asp-route-id="@item.Id">Select</a>  *@
+                    @* <a asp-action="GetCars" asp-controller="Sales" asp-route-client-id="@item.Id" asp-route-car-id="@Model.SelectedCar">Vinde</a> *@
+                    <a href="#" class="sell-btn" data-client-id="@item.Id" data-car-id="">Vinde</a>
 
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+<!-- JavaScript for Dynamic Update -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#carSelect').change(function () {
+            var selectedCarId = $(this).val();
+            console.log(selectedCarId);
+
+            // Update all "Vinde" buttons dynamically
+            $('.sell-btn').each(function () {
+                var clientId = $(this).data('client-id');
+                $(this).data('car-id', selectedCarId);
+                var newUrl = `/Sales/SellCar?clientId=${clientId}&carId=${selectedCarId}`;
+                console.log(newUrl);
+                $(this).attr('href', newUrl);
+            });
+        });
+
+        $(".sell-btn").click(function () {
+            var cli = $(this).attr('href');
+            console.log($(this).data('car-id'));
+            debugger;
+            if (hrefValue === "#" || hrefValue === "" || hrefValue === undefined || selectedCarId === undefined || selectedCarId === "") {
+
+                alert("⚠️ Selecteaza o masina pentru a putea continua! ");
+            }
+        });
+    });
+</script>
